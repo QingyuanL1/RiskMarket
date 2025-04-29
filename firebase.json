@@ -1,0 +1,21 @@
+{
+  "hosting": {
+    "site": "irisk-f80b6",
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/**",
+        "destination": "http://127.0.0.1:5050/api/**"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
