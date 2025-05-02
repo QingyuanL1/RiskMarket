@@ -116,10 +116,20 @@ const SearchResultDetailPage: React.FC = () => {
           console.log("Using passed state:", passedState);
           try {
               // Map the raw occupant data from the state
-              const mappedOccupants = mapOccupantData(passedState.occupantDetailsRaw || []);
+              // 确保使用正确的filtered_results字段
+              const occupantDetailsRaw = passedState.occupantDetailsRaw || [];
+              
+              // 检查数据完整性
+              if (!occupantDetailsRaw || !Array.isArray(occupantDetailsRaw) || occupantDetailsRaw.length === 0) {
+                console.warn("Warning: occupantDetailsRaw 数据不完整", occupantDetailsRaw);
+              } else {
+                console.log("occupantDetailsRaw 数据长度:", occupantDetailsRaw.length);
+              }
+              
+              const mappedOccupants = mapOccupantData(occupantDetailsRaw);
 
               // --- Parse Building Details --- 
-              const rawAddressFromState = passedState.occupantDetailsRaw?.[0]?.address;
+              const rawAddressFromState = occupantDetailsRaw[0]?.address;
               const parsedDetails = parseBuildingDetails(rawAddressFromState);
               setBuildingDetails(parsedDetails); // Update the new state
               // --- End Parse Building Details ---

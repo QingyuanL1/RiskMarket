@@ -25,6 +25,7 @@ import {
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { api, API_BASE_URL } from "../api";
+import { useAuth } from "../contexts/AuthContext";
 
 interface ProcessedData {
   address: string;
@@ -68,6 +69,8 @@ interface ExportedFileInfo {
 }
 
 const DataProcessingPage: React.FC = () => {
+  const { currentUser } = useAuth();
+  const location = useLocation();
   const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
   const [selectedFileForBatch, setSelectedFileForBatch] = useState<File | null>(null);
   const [uploadedFileDetails, setUploadedFileDetails] = useState<UploadedFileDetails | null>(null);
@@ -88,11 +91,61 @@ const DataProcessingPage: React.FC = () => {
   const [exportedFileName, setExportedFileName] = useState("");
 
   const [singleSearchAddress, setSingleSearchAddress] = useState("");
+  const [pageKey, setPageKey] = useState<number>(Date.now()); // 用于触发刷新的key
 
+  // 清除所有用户相关数据的函数
+  const clearAllData = () => {
+    setUploadedFiles([]);
+    setSelectedFileForBatch(null);
+    setUploadedFileDetails(null);
+    setInternalBatchData([]);
+    setRecentSearches([]);
+    setCurrentSingleResult(null);
+    setExportedFiles([]);
+    setDownloadUrl('');
+    setExportedFileName('');
+    setMessage(null);
+    setSingleSearchAddress('');
+  };
+
+  // 监听用户登录状态，当用户变化时调用
   useEffect(() => {
-    loadExportedFiles();
-    loadRecentSearches();
-  }, []);
+    if (!currentUser) {
+      // 如果没有当前用户（已登出），清除所有数据
+      clearAllData();
+    }
+  }, [currentUser]); // 依赖于currentUser，当用户变化时重新执行
+
+  // 添加路由监听，每次进入页面时刷新数据
+  useEffect(() => {
+    // 只有当用户已登录时才加载数据
+    if (currentUser) {
+      console.log("页面重新加载数据...");
+      // 先清空现有数据
+      clearAllData();
+      // 然后重新加载数据
+      loadExportedFiles();
+      loadRecentSearches();
+      // 更新页面key，确保组件刷新
+      setPageKey(Date.now());
+    }
+  }, [location.pathname, currentUser]); // 依赖于路径和用户，当路径变化或用户变化时重新执行
+
+  // 刷新数据的函数
+  const refreshData = () => {
+    if (currentUser) {
+      console.log("手动刷新数据...");
+      setIsLoading(true);
+      setIsLoadingRecent(true);
+      
+      Promise.all([loadExportedFiles(), loadRecentSearches()])
+        .finally(() => {
+          setIsLoading(false);
+          setIsLoadingRecent(false);
+          showMessage("数据已刷新", "success");
+        });
+    }
+  };
 
   const loadExportedFiles = async () => {
     setIsLoading(true);
@@ -323,45 +376,23 @@ const DataProcessingPage: React.FC = () => {
         throw new Error(response.data.error || "Single search failed");
       }
       
-      // Process the response data
-      const searchData = response.data.data;
-      const totalResults = response.data.length || 0;
-      
-      if (!searchData || searchData.length === 0) {
+      if (!response.data.data || response.data.data.length === 0) {
         showMessage("No results found for this address", "warning");
         setIsLoading(false);
         return;
       }
       
-      // Format the data for display
-      const result = searchData[0]; // Get the first (and likely only) result
-      
-      // Map the API response to our SingleSearchResult format
-      const formattedResult: SingleSearchResult = {
-        id: Math.random().toString(36).substring(2, 9), // Generate a random ID
-        address: singleSearchAddress || result.address || 'Address not found',
-        occupants: totalResults, // Total number of businesses at this address from length field
-        vacancies: 2, // Default value for now
-        photos: result.extra_info?.photos?.length || 0,
-        operationAlerts: result.types?.length || 0, // Number of business types as operation alerts
-        dateLastUpdated: new Date().toLocaleDateString(),
-        type: Array.isArray(result.types) ? result.types.join(", ") : result.types,
-        totalScore: result.Total_Score || 0,
-        hasWarning: result.business_status === "CLOSED_PERMANENTLY",
-        imageUrl: result.extra_info?.photos?.[0]?.photo_reference ? 
-          `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${result.extra_info.photos[0].photo_reference}&key=AIzaSyDJpECFECrlCJGhwE6nDY6DRvnWni8xFp0` : 
-          undefined,
-        filtered_results: searchData || [],
-        top3ScoresCombined: result.Top3_Scores_Combined
-      };
-      
-      // Update the current result
-      setCurrentSingleResult(formattedResult);
-      
-      // Add to recent searches (at the beginning)
-      setRecentSearches(prevSearches => [formattedResult, ...prevSearches]);
-      
+      // 搜索成功后，直接从recent接口获取最新数据
       showMessage(`Found result for ${singleSearchAddress}`, "success");
+      
+      // 重新加载最近搜索记录，以获取完整的最新数据
+      await loadRecentSearches();
+      
+      // 搜索完成后，通过最近加载的数据找到匹配当前地址的搜索结果
+      // 假设最新的搜索结果就是第一个
+      if (recentSearches.length > 0) {
+        setCurrentSingleResult(recentSearches[0]);
+      }
       
     } catch (error: any) {
       console.error("Single search error:", error);
