@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import {
   MapPin, Building, Users, ImageIcon, Calendar, Loader2,
-  ArrowLeft, Download, RefreshCw, ArrowRight, AlertTriangle
+  ArrowLeft, Download, RefreshCw, ArrowRight, AlertTriangle, HelpCircle
 } from 'lucide-react';
 import { api } from '../api'; // Assuming api setup is similar
 
@@ -297,8 +297,16 @@ const SearchResultDetailPage: React.FC = () => {
                             <h3 className="text-base font-semibold text-gray-900 mb-4">Risk Analysis</h3>
                             <div className="text-sm text-gray-700 space-y-3">
                                 {resultData.totalScore !== undefined && (
-                                    <p className="flex justify-between">
-                                        <span>Total Risk Score:</span> 
+                                    <p className="flex justify-between items-center">
+                                        <span className="flex items-center">
+                                            Total Risk Score:
+                                            <span className="ml-1 cursor-help inline-block relative group">
+                                                <HelpCircle className="w-4 h-4 text-gray-500" />
+                                                <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 min-w-max px-3 py-2 text-xs font-medium text-white bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out pointer-events-none z-10 whitespace-nowrap">
+                                                    composite scores for all 18 disasters
+                                                </span>
+                                            </span>
+                                        </span>
                                         <span className="font-medium text-gray-900">
                                             {resultData.totalScore.toFixed(2)}
                                         </span>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { ArrowLeft, FileText, Loader2, AlertTriangle, Download, MapPin, Building, BarChart, Info, List, CheckCircle } from 'lucide-react';
+import { ArrowLeft, FileText, Loader2, AlertTriangle, Download, MapPin, Building, BarChart, Info, List, CheckCircle, HelpCircle } from 'lucide-react';
 import { api } from '../api'; // Import the api instance
 import { parse } from 'papaparse'; // Import a CSV parser
 
@@ -373,7 +373,15 @@ const BatchExportDetailPage: React.FC = () => {
                                                 <div className="text-xs text-gray-700 space-y-2">
                                                     {group.riskScores.total !== undefined && (
                                                         <p className="flex justify-between items-center">
-                                                            <span className="text-gray-500 flex items-center"><BarChart className="w-3.5 h-3.5 mr-1.5"/>Total Score:</span>
+                                                            <span className="text-gray-500 flex items-center">
+                                                                <BarChart className="w-3.5 h-3.5 mr-1.5"/>Total Score:
+                                                                <span className="ml-1 cursor-help inline-block relative group">
+                                                                    <HelpCircle className="w-3.5 h-3.5 text-gray-400" />
+                                                                    <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 min-w-max px-3 py-2 text-xs font-medium text-white bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out pointer-events-none z-10 whitespace-nowrap">
+                                                                        composite scores for all 18 disasters
+                                                                    </span>
+                                                                </span>
+                                                            </span>
                                                             <span className="font-semibold text-lg text-gray-900">{group.riskScores.total.toFixed(2)}</span>
                                                         </p>
                                                     )}

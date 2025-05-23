@@ -1,9 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { api } from "../api";
 
 const ContactUs = () => {
+  // State for form fields
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState({ type: "", message: "" }); // For success/error messages
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent default page reload
+    setIsLoading(true);
+
+    // eli@riskmarker.com
+    setStatus({ type: "", message: "" }); // Clear previous status
+
+    // --- Construct email details --- 
+    const recipientEmail = "zifan@riskmarker.com,eli@riskmarker.com"; // ** CHANGE THIS if you want emails sent elsewhere **
+    const emailSubject = `Contact Form Submission from ${firstName} ${lastName}`;
+    const emailBody = `
+      New message received from the contact form:
+      ------------------------------------------
+      Name: ${firstName} ${lastName}
+      Email: ${email}
+      ------------------------------------------
+      Message:
+      ${message}
+      ------------------------------------------
+    `;
+
+    try {
+      const response = await api.post("/api/send-email", { 
+        to_email: recipientEmail, 
+        subject: emailSubject,
+        body: emailBody,
+      });
+
+      const result = response.data;
+
+      if (response.status >= 200 && response.status < 300 && result.status === "success") {
+        setStatus({ type: "success", message: "Message sent successfully!" });
+        // Clear the form
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setMessage("");
+      } else {
+        setStatus({ type: "error", message: result.message || "Failed to send message. Please try again." });
+      }
+    } catch (error) {
+      console.error("Error sending contact form:", error);
+      setStatus({ type: "error", message: "An error occurred. Please try again later." });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -88,7 +146,7 @@ const ContactUs = () => {
               </div>
             </div>
 
-            <form className="space-y-5 mt-8 lg:mt-0">
+            <form className="space-y-5 mt-8 lg:mt-0" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 gap-y-5 gap-x-8 sm:grid-cols-2">
                 <div>
                   <label
@@ -100,9 +158,12 @@ const ContactUs = () => {
                   <input
                     type="text"
                     id="first-name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors"
                     placeholder="Your first name"
                     required
+                    disabled={isLoading}
                   />
                 </div>
                 <div>
@@ -115,9 +176,12 @@ const ContactUs = () => {
                   <input
                     type="text"
                     id="last-name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors"
                     placeholder="Your last name"
                     required
+                    disabled={isLoading}
                   />
                 </div>
               </div>
@@ -132,8 +196,12 @@ const ContactUs = () => {
                 <input
                   type="email"
                   id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  placeholder="your.email@example.com"
                   required
+                  disabled={isLoading}
                 />
               </div>
 
@@ -147,18 +215,31 @@ const ContactUs = () => {
                 <textarea
                   id="message"
                   rows={4}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   placeholder="How can we help you?"
                   required
+                  disabled={isLoading}
                 ></textarea>
               </div>
+
+              {/* Display Success/Error Messages */}
+              {status.message && (
+                <div className={`p-3 rounded-lg text-sm ${ 
+                  status.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                }`}>
+                  {status.message}
+                </div>
+              )}
 
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="w-full py-3 px-8 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-md hover:shadow-lg"
+                  className={`w-full py-3 px-8 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-md hover:shadow-lg ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={isLoading}
                 >
-                  Send Message
+                  {isLoading ? 'Sending...' : 'Send Message'}
                 </button>
               </div>
             </form>

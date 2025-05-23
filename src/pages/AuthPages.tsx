@@ -113,7 +113,7 @@ const AuthPages: React.FC<AuthPagesProps> = ({ mode = "login" }) => {
       const result = await signInWithPopup(auth, provider);
       const token = await getIdToken(result.user);
       console.log("Firebase Token:", token);
-      navigate("/");
+      navigate("/data-processing");
     } catch (err: any) {
       if (err.code === "auth/unauthorized-domain") {
         setError(
@@ -145,7 +145,7 @@ const AuthPages: React.FC<AuthPagesProps> = ({ mode = "login" }) => {
         const result = await signInWithEmailAndPassword(auth, email, password);
         const token = await getIdToken(result.user);
         console.log("Firebase Token:", token);
-        navigate("/");
+        navigate("/data-processing");
       } else {
         const result = await createUserWithEmailAndPassword(
           auth,

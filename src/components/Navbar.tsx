@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { auth } from "../firebase";
 import { Menu, ChevronDown, User, LogOut, Settings, Bell } from "lucide-react";
@@ -93,6 +93,9 @@ const UserMenu = () => {
 const Navbar: React.FC = () => {
   const { currentUser } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const isActive = (path: string) => location.pathname === path;
+  const isProductActive = (path: string) => location.pathname.startsWith(path);
 
   return (
     <nav className="bg-white shadow-sm">
@@ -111,31 +114,31 @@ const Navbar: React.FC = () => {
           <div className="hidden md:flex md:items-center md:space-x-8">
             <Link
               to="/"
-              className="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium"
+              className={`px-3 py-2 text-sm font-medium ${isActive('/') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-gray-900'}`}
             >
-              Dashboard
+              Home
             </Link>
             <Link
-              to="/products"
-              className="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium"
+              to="/products/commercial/lro"
+              className={`px-3 py-2 text-sm font-medium ${isProductActive('/products') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-gray-900'}`}
             >
               Products
             </Link>
             <Link
               to="/data-processing"
-              className="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium"
+              className={`px-3 py-2 text-sm font-medium ${isActive('/data-processing') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-gray-900'}`}
             >
-              Analysis
+              Dashboard
             </Link>
             <Link
               to="/about"
-              className="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium"
+              className={`px-3 py-2 text-sm font-medium ${isActive('/about') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-gray-900'}`}
             >
               About
             </Link>
             <Link
               to="/contact"
-              className="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium"
+              className={`px-3 py-2 text-sm font-medium ${isActive('/contact') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-gray-900'}`}
             >
               Contact
             </Link>
@@ -183,31 +186,31 @@ const Navbar: React.FC = () => {
           <div className="pt-2 pb-3 space-y-1">
             <Link
               to="/"
-              className="block px-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              className={`block px-4 py-2 text-base font-medium ${isActive('/') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}
             >
-              Dashboard
+              Home
             </Link>
             <Link
-              to="/products"
-              className="block px-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              to="/products/commercial/lro"
+              className={`block px-4 py-2 text-base font-medium ${isProductActive('/products') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}
             >
               Products
             </Link>
             <Link
               to="/data-processing"
-              className="block px-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              className={`block px-4 py-2 text-base font-medium ${isActive('/data-processing') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}
             >
-              Analysis
+              Dashboard
             </Link>
             <Link
               to="/about"
-              className="block px-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              className={`block px-4 py-2 text-base font-medium ${isActive('/about') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}
             >
               About
             </Link>
             <Link
               to="/contact"
-              className="block px-4 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              className={`block px-4 py-2 text-base font-medium ${isActive('/contact') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}
             >
               Contact
             </Link>
