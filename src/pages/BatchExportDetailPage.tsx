@@ -387,7 +387,15 @@ const BatchExportDetailPage: React.FC = () => {
                                                     )}
                                                     {group.riskScores.top3 && (
                                                         <div className="mt-2 pt-2 border-t border-gray-100">
-                                                            <p className="font-medium text-gray-700 mb-1">Top 3 Risks:</p>
+                                                            <p className="font-medium text-gray-700 mb-1 flex items-center">
+                                                                Top 3 Risks:
+                                                                <span className="ml-1 cursor-help inline-block relative group">
+                                                                    <HelpCircle className="w-3.5 h-3.5 text-gray-400" />
+                                                                    <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 min-w-max px-3 py-2 text-xs font-medium text-white bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out pointer-events-none z-10 whitespace-nowrap">
+                                                                        Top three disaster risk scores
+                                                                    </span>
+                                                                </span>
+                                                            </p>
                                                             <div className="pl-2 space-y-0.5 text-gray-500 whitespace-pre-wrap">
                                                                 {group.riskScores.top3}
                                                             </div>

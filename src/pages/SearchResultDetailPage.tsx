@@ -314,7 +314,15 @@ const SearchResultDetailPage: React.FC = () => {
                                 )}
                                 {resultData.top3ScoresCombined && (
                                     <div>
-                                        <p className="font-medium text-gray-800 mb-1">Top 3 Risks:</p>
+                                        <p className="font-medium text-gray-800 mb-1 flex items-center">
+                                            Top 3 Risks:
+                                            <span className="ml-1 cursor-help inline-block relative group">
+                                                <HelpCircle className="w-4 h-4 text-gray-500" />
+                                                <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 min-w-max px-3 py-2 text-xs font-medium text-white bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out pointer-events-none z-10 whitespace-nowrap">
+                                                    Top three disaster risk scores
+                                                </span>
+                                            </span>
+                                        </p>
                                         {/* Render multi-line scores */} 
                                         <div className="pl-2 space-y-1 text-gray-600">
                                             {resultData.top3ScoresCombined.split(/\r?\n/).map((line, index) => (
