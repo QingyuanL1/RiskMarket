@@ -314,6 +314,8 @@ const SearchResultDetailPage: React.FC = () => {
                                 )}
                                 {resultData.top3ScoresCombined && (
                                     <div>
+
+                                      
                                         <p className="font-medium text-gray-800 mb-1 flex items-center">
                                             Top 3 Risks:
                                             <span className="ml-1 cursor-help inline-block relative group">

@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { auth } from './firebase';
 
-export const API_BASE_URL = 'http://localhost:5050';
+// export const API_BASE_URL = 'http://localhost:5050';
+export const API_BASE_URL = 'http://riskmarker.com:5050';
+
 
 // 保存token和过期时间
 let cachedToken = {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { auth } from "../firebase";
-import { Menu, ChevronDown, User, LogOut, Settings, Bell } from "lucide-react";
+import { Menu, ChevronDown, User, LogOut, Settings, Bell, Book, FileText, ExternalLink } from "lucide-react";
 
 // Default avatar
 const DEFAULT_AVATAR =
@@ -90,6 +90,68 @@ const UserMenu = () => {
   );
 };
 
+// Docs dropdown menu component
+const DocsMenu = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const isDocsActive = location.pathname.startsWith('/docs');
+
+  return (
+    <div className="relative">
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        onBlur={() => setTimeout(() => setIsOpen(false), 100)}
+        className={`flex items-center px-3 py-2 text-sm font-medium ${isDocsActive ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-gray-900'}`}
+      >
+        Docs
+        <ChevronDown className={`ml-1 w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      
+      {isOpen && (
+        <div className="absolute left-0 mt-1 w-56 bg-white rounded-md shadow-lg py-2 z-10 border border-gray-100">
+          <Link 
+            to="/docs/features"
+            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+          >
+            <FileText className="w-4 h-4 mr-2 text-blue-600" />
+            Risk Score Dictionary
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Mobile docs dropdown menu
+const MobileDocsMenu = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const isDocsActive = location.pathname.startsWith('/docs');
+
+  return (
+    <div>
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className={`flex justify-between w-full px-4 py-2 text-base font-medium ${isDocsActive ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}
+      >
+        <span>Docs</span>
+        <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      
+      {isOpen && (
+        <div className="pl-8 space-y-1">
+          <Link 
+            to="/docs/features"
+            className="block px-4 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+          >
+            Risk Score Dictionary
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Navbar: React.FC = () => {
   const { currentUser } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -136,6 +198,7 @@ const Navbar: React.FC = () => {
             >
               About
             </Link>
+            <DocsMenu />
             <Link
               to="/contact"
               className={`px-3 py-2 text-sm font-medium ${isActive('/contact') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-gray-900'}`}
@@ -208,6 +271,7 @@ const Navbar: React.FC = () => {
             >
               About
             </Link>
+            <MobileDocsMenu />
             <Link
               to="/contact"
               className={`block px-4 py-2 text-base font-medium ${isActive('/contact') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}

@@ -21,6 +21,7 @@ import {
   Bell,
   Calendar,
   ArrowRight,
+  HelpCircle,
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -204,6 +205,16 @@ const DataProcessingPage: React.FC = () => {
              };
           }
 
+          // --- 提取Total Space Available值 ---
+          let vacancies = "No matching data";
+          if (result.address) {
+            const match = result.address.match(/Total Space Available:\s*(\d+)/);
+            if (match && match[1]) {
+              vacancies = match[1];
+            }
+          }
+          // --- 提取逻辑结束 ---
+
           // --- Find the first valid photo reference --- 
           let photoReference: string | undefined = undefined;
           if (result.extra_info?.photos && Array.isArray(result.extra_info.photos)) {
@@ -235,7 +246,7 @@ const DataProcessingPage: React.FC = () => {
             id: searchItem.search_id || Math.random().toString(36).substring(2, 9),
             address: searchItem.address_searched || result.address || 'Search Failed',
             occupants: totalResults,
-            vacancies: 0, 
+            vacancies: vacancies, // 使用提取的空置数
             photos: result.extra_info?.photos?.length || 0,
             operationAlerts: typesArray.length,
             dateLastUpdated: new Date(searchItem.search_timestamp).toLocaleDateString(),
@@ -664,6 +675,16 @@ const DataProcessingPage: React.FC = () => {
                   <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
                     <MapPin className="w-5 h-5 mr-2 text-indigo-600" />
                     Single Property Lookup
+                    <div className="relative ml-2 group">
+                      <HelpCircle className="w-4 h-4 text-gray-400 cursor-help" />
+                      <div className="absolute left-0 bottom-full mb-2 w-64 rounded-lg bg-white border border-indigo-100 text-gray-700 text-xs p-3 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity z-10 shadow-md">
+                        Please enter a complete address including street name, city, state, and ZIP code 
+                        <span className="block mt-1 mb-1 font-semibold bg-indigo-50 p-1.5 rounded border border-indigo-100">
+                          e.g.: 3120 Pimlico Pky, Lexington, KY, 40517
+                        </span>
+                        Including the ZIP code improves search accuracy.
+                      </div>
+                    </div>
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 mb-4">
                     <div>
@@ -704,6 +725,19 @@ const DataProcessingPage: React.FC = () => {
                   <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
                     <Database className="w-5 h-5 mr-2 text-indigo-600" />
                     Batch Search via CSV Upload
+                    <div className="relative ml-2 group">
+                      <HelpCircle className="w-4 h-4 text-gray-400 cursor-help" />
+                      <div className="absolute left-0 bottom-full mb-2 w-72 rounded-lg bg-white border border-indigo-100 text-gray-700 text-xs p-3 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity z-10 shadow-md">
+                        <p className="mb-2">CSV file must include the following columns (header row required):</p>
+                        <p className="bg-indigo-50 p-1.5 rounded font-mono text-xs mb-2 border border-indigo-100 font-semibold">Street Address,City,State,Zip,Country</p>
+                        <p className="mb-1">Sample data format:</p>
+                        <ul className="bg-indigo-50 p-2 rounded border border-indigo-100 font-semibold space-y-1">
+                          <li>201 St Charles Suite 25,New Orleans,LA,70170.0,US</li>
+                          <li>800 Hutchinson,Chicago,IL,60613.0,US</li>
+                          <li>3120 Pimlico Pky,Lexington,KY,40517,USA</li>
+                        </ul>
+                      </div>
+                    </div>
                   </h3>
                   <div className="mb-4">
                     <label 

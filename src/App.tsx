@@ -14,6 +14,10 @@ import ProductDetail from "./pages/ProductDetail";
 import LessorsRiskOnly from "./pages/LessorsRiskOnly";
 import SearchResultDetailPage from './pages/SearchResultDetailPage';
 import BatchExportDetailPage from './pages/BatchExportDetailPage';
+import DocsIndex from './pages/docs/index';
+import GettingStarted from './pages/docs/GettingStarted';
+import Features from './pages/docs/Features';
+import API from './pages/docs/API';
 import { AuthProvider } from "./contexts/AuthContext";
 
 const App: React.FC = () => {
@@ -29,6 +33,13 @@ const App: React.FC = () => {
           <Route path="/data-processing" element={<DataProcessingPage />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
+          
+          {/* 文档路由 */}
+          <Route path="/docs" element={<DocsIndex />} />
+          <Route path="/docs/getting-started" element={<GettingStarted />} />
+          <Route path="/docs/features" element={<Features />} />
+          <Route path="/docs/api" element={<API />} />
+          
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} />
           <Route path="/search-result/:id" element={<SearchResultDetailPage />} />
