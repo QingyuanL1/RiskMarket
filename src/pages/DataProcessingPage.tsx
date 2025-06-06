@@ -564,7 +564,7 @@ const DataProcessingPage: React.FC = () => {
                   <p className="flex items-center"><Table className="w-4 h-4 mr-2 text-blue-500" /> Type: <span className="truncate inline-block max-w-xs" title={result.type}>{result.type}</span></p>
                 )}
                 {result.totalScore !== undefined && result.totalScore > 0 && (
-                  <p className="flex items-center"><BarChart className="w-4 h-4 mr-2 text-blue-500" /> Risk Score: {result.totalScore.toFixed(2)}</p>
+                  <p className="flex items-center"><BarChart className="w-4 h-4 mr-2 text-blue-500" /> Geo peril: {result.totalScore.toFixed(2)}</p>
                 )}
               </div>
             </div>

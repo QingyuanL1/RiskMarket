@@ -392,7 +392,7 @@ const BatchExportDetailPage: React.FC = () => {
                                                                 <span className="ml-1 cursor-help inline-block relative group">
                                                                     <HelpCircle className="w-3.5 h-3.5 text-gray-400" />
                                                                     <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 min-w-max px-3 py-2 text-xs font-medium text-white bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out pointer-events-none z-10 whitespace-nowrap">
-                                                                        Top three disaster risk scores
+                                                                        Top three disaster geo peril
                                                                     </span>
                                                                 </span>
                                                             </p>

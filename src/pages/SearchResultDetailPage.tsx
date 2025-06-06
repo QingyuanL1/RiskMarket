@@ -34,7 +34,7 @@ interface SearchResultDetailData {
   imageUrl?: string;
   rentalRate?: string;
   occupantDetails: OccupantDetail[]; // Use the processed format here
-  totalScore?: number; // Added Total Risk Score
+  totalScore?: number; // Added Total Geo peril
   top3ScoresCombined?: string; // Added Top 3 Scores
 }
 
@@ -299,7 +299,7 @@ const SearchResultDetailPage: React.FC = () => {
                                 {resultData.totalScore !== undefined && (
                                     <p className="flex justify-between items-center">
                                         <span className="flex items-center">
-                                            Total Risk Score:
+                                            Total geo-peril score:
                                             <span className="ml-1 cursor-help inline-block relative group">
                                                 <HelpCircle className="w-4 h-4 text-gray-500" />
                                                 <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 min-w-max px-3 py-2 text-xs font-medium text-white bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out pointer-events-none z-10 whitespace-nowrap">
@@ -321,7 +321,7 @@ const SearchResultDetailPage: React.FC = () => {
                                             <span className="ml-1 cursor-help inline-block relative group">
                                                 <HelpCircle className="w-4 h-4 text-gray-500" />
                                                 <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 min-w-max px-3 py-2 text-xs font-medium text-white bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out pointer-events-none z-10 whitespace-nowrap">
-                                                    Top three disaster risk scores
+                                                    Top three disaster geo peril
                                                 </span>
                                             </span>
                                         </p>

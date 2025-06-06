@@ -259,7 +259,7 @@ const UIDocumentation: React.FC = () => {
                 description="Displays detailed results for a single address search."
                 items={[
                   "Address information and basic data",
-                  "Building details and risk scores",
+                  "Building details and geo peril",
                   "Occupant list and details",
                   "Location photos (if available)"
                 ]}

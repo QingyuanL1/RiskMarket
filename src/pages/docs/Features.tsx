@@ -12,7 +12,7 @@ const Features: React.FC = () => {
           <div className="mb-8">
             <div className="flex items-center">
               <FileText className="h-8 w-8 text-blue-600 mr-3" />
-              <h1 className="text-3xl font-bold text-gray-900">Risk Score Data Dictionary</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Geo peril Data Dictionary</h1>
             </div>
           </div>
           

@@ -140,7 +140,7 @@ const DocsMenu = () => {
               className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
             >
               <FileText className="w-4 h-4 mr-3 text-blue-600" />
-              <span>Risk Score Dictionary</span>
+              <span>Geo peril Dictionary</span>
             </Link>
           </div>
           
@@ -219,7 +219,7 @@ const MobileDocsMenu = () => {
               className="flex items-center px-4 py-2 text-sm text-gray-600 hover:text-blue-700"
             >
               <FileText className="w-4 h-4 mr-2 text-blue-500" />
-              <span>Risk Score Dictionary</span>
+              <span>Geo peril Dictionary</span>
             </Link>
           </div>
           
