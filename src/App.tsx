@@ -9,6 +9,8 @@ import Profile from "./pages/Profile";
 import DataProcessingPage from "./pages/DataProcessingPage";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import LessorsRiskOnly from "./pages/LessorsRiskOnly";
@@ -18,6 +20,8 @@ import DocsIndex from './pages/docs/index';
 import GettingStarted from './pages/docs/GettingStarted';
 import Features from './pages/docs/Features';
 import API from './pages/docs/API';
+import UIDocumentation from './pages/docs/UIDocumentation';
+import APIDocumentation from './pages/docs/APIDocumentation';
 import { AuthProvider } from "./contexts/AuthContext";
 
 const App: React.FC = () => {
@@ -33,12 +37,16 @@ const App: React.FC = () => {
           <Route path="/data-processing" element={<DataProcessingPage />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
           
           {/* 文档路由 */}
           <Route path="/docs" element={<DocsIndex />} />
           <Route path="/docs/getting-started" element={<GettingStarted />} />
           <Route path="/docs/features" element={<Features />} />
           <Route path="/docs/api" element={<API />} />
+          <Route path="/docs/ui-documentation" element={<UIDocumentation />} />
+          <Route path="/docs/api-documentation" element={<APIDocumentation />} />
           
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} />

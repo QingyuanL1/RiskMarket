@@ -98,7 +98,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-2">
               <li>
                 <Link
-                  to="#"
+                  to="/privacy"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   Privacy
@@ -106,7 +106,7 @@ const Footer: React.FC = () => {
               </li>
               <li>
                 <Link
-                  to="#"
+                  to="/terms"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   Terms

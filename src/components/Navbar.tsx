@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { auth } from "../firebase";
-import { Menu, ChevronDown, User, LogOut, Settings, Bell, Book, FileText, ExternalLink } from "lucide-react";
+import { Menu, ChevronDown, User, LogOut, Settings, Bell, Book, FileText, ExternalLink, Layout, FileJson, Server } from "lucide-react";
 
 // Default avatar
 const DEFAULT_AVATAR =
@@ -108,14 +108,62 @@ const DocsMenu = () => {
       </button>
       
       {isOpen && (
-        <div className="absolute left-0 mt-1 w-56 bg-white rounded-md shadow-lg py-2 z-10 border border-gray-100">
-          <Link 
-            to="/docs/features"
-            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-          >
-            <FileText className="w-4 h-4 mr-2 text-blue-600" />
-            Risk Score Dictionary
-          </Link>
+        <div className="absolute left-0 mt-1 w-64 bg-white rounded-lg shadow-lg py-3 z-10 border border-gray-100 divide-y divide-gray-100">
+          {/* 文档导航部分 */}
+          <div className="pb-2">
+            <div className="px-4 pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Getting Starteding Started
+            </div>
+            <Link 
+              to="/docs/getting-started"
+              className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+            >
+              <Book className="w-4 h-4 mr-3 text-blue-600" />
+              <span>Getting Started</span>
+            </Link>
+          </div>
+          
+          {/* 主要文档部分 */}
+          <div className="py-2">
+            <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              文档指南
+            </div>
+            <Link 
+              to="/docs/ui-documentation"
+              className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+            >
+              <Layout className="w-4 h-4 mr-3 text-blue-600" />
+              <span>UI Documentation</span>
+            </Link>
+            <Link 
+              to="/docs/features"
+              className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+            >
+              <FileText className="w-4 h-4 mr-3 text-blue-600" />
+              <span>Risk Score Dictionary</span>
+            </Link>
+          </div>
+          
+          {/* API部分 */}
+          <div className="pt-2">
+            <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Developer Resources
+            </div>
+            <Link
+              to="/docs/api-documentation"
+              className="flex items-center px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-md group"
+            >
+              <FileJson className="mr-3 h-5 w-5 text-blue-500 group-hover:text-blue-600" />
+              API Documentation
+            </Link>
+            {/* <Link
+              to="/docs/api"
+              className="flex items-center px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-md group"
+            >
+              <Server className="mr-3 h-5 w-5 text-blue-500 group-hover:text-blue-600" />
+              API Reference
+            </Link> */}
+          </div>
         </div>
       )}
     </div>
@@ -124,28 +172,83 @@ const DocsMenu = () => {
 
 // Mobile docs dropdown menu
 const MobileDocsMenu = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [mobileDocsOpen, setMobileDocsOpen] = useState(false);
   const location = useLocation();
   const isDocsActive = location.pathname.startsWith('/docs');
 
   return (
     <div>
       <button 
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setMobileDocsOpen(!mobileDocsOpen)}
         className={`flex justify-between w-full px-4 py-2 text-base font-medium ${isDocsActive ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}
       >
         <span>Docs</span>
-        <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-4 h-4 transition-transform ${mobileDocsOpen ? 'rotate-180' : ''}`} />
       </button>
       
-      {isOpen && (
-        <div className="pl-8 space-y-1">
-          <Link 
-            to="/docs/features"
-            className="block px-4 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-          >
-            Risk Score Dictionary
-          </Link>
+      {mobileDocsOpen && (
+        <div className="pl-6 py-2 space-y-4 bg-gray-50 border-l-2 border-blue-100">
+          {/* 开始使用 */}
+          <div>
+            <div className="px-4 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              开始使用
+            </div>
+            <Link 
+              to="/docs/getting-started"
+              className="flex items-center px-4 py-2 text-sm text-gray-600 hover:text-blue-700"
+            >
+              <Book className="w-4 h-4 mr-2 text-blue-500" />
+              <span>Getting Started</span>
+            </Link>
+          </div>
+          
+          {/* 文档指南 */}
+          <div>
+            <div className="px-4 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              文档指南
+            </div>
+            <Link 
+              to="/docs/ui-documentation"
+              className="flex items-center px-4 py-2 text-sm text-gray-600 hover:text-blue-700"
+            >
+              <Layout className="w-4 h-4 mr-2 text-blue-500" />
+              <span>UI Documentation</span>
+            </Link>
+            <Link 
+              to="/docs/features"
+              className="flex items-center px-4 py-2 text-sm text-gray-600 hover:text-blue-700"
+            >
+              <FileText className="w-4 h-4 mr-2 text-blue-500" />
+              <span>Risk Score Dictionary</span>
+            </Link>
+          </div>
+          
+          {/* 开发者资源 */}
+          <div className="py-2 pl-3 border-l-2 border-blue-500 bg-blue-50">
+            <div className="mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              开发者资源
+            </div>
+            <Link
+              to="/docs/api-documentation"
+              className="block py-2 pl-3 pr-4 text-sm text-gray-700 hover:bg-blue-100 hover:text-blue-800"
+              onClick={() => setMobileDocsOpen(false)}
+            >
+              <div className="flex items-center">
+                <FileJson className="w-4 h-4 mr-2 text-blue-500" />
+                <span>API Documentation</span>
+              </div>
+            </Link>
+            <Link
+              to="/docs/api"
+              className="block py-2 pl-3 pr-4 text-sm text-gray-700 hover:bg-blue-100 hover:text-blue-800"
+              onClick={() => setMobileDocsOpen(false)}
+            >
+              <div className="flex items-center">
+                <Server className="w-4 h-4 mr-2 text-blue-500" />
+                <span>API Reference</span>
+              </div>
+            </Link>
+          </div>
         </div>
       )}
     </div>

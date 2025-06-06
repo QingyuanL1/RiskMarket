@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import { Book, FileText, ExternalLink, ChevronRight } from 'lucide-react';
+import { Book, FileText, ExternalLink, ChevronRight, Layout } from 'lucide-react';
 
 const DocsIndex: React.FC = () => {
   return (
@@ -17,7 +17,7 @@ const DocsIndex: React.FC = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
             {/* Getting Started Card */}
             <Link to="/docs/getting-started" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
               <div className="p-6 flex-grow">
@@ -59,6 +59,21 @@ const DocsIndex: React.FC = () => {
               </div>
               <div className="px-6 py-3 bg-blue-50 text-blue-600 text-sm font-medium flex justify-between items-center">
                 <span>View API Docs</span>
+                <ChevronRight className="h-4 w-4" />
+              </div>
+            </Link>
+
+            {/* UI Documentation Card */}
+            <Link to="/docs/ui-documentation" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
+              <div className="p-6 flex-grow">
+                <div className="flex items-center mb-4">
+                  <Layout className="h-8 w-8 text-blue-600 mr-3" />
+                  <h2 className="text-xl font-bold text-gray-900">UI Documentation</h2>
+                </div>
+                <p className="text-gray-600">Understand the user interface and learn how to navigate through different sections of the platform.</p>
+              </div>
+              <div className="px-6 py-3 bg-blue-50 text-blue-600 text-sm font-medium flex justify-between items-center">
+                <span>Explore UI Guide</span>
                 <ChevronRight className="h-4 w-4" />
               </div>
             </Link>
